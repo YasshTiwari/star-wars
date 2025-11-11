@@ -1,0 +1,48 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* index.css (below your @tailwind imports) */
+
+/* optional base body styles */
+body {
+  @apply bg-gray-900 text-gray-100 antialiased;
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background-color: #a26969;
+}
+
+
+/* small container utility you might use for pages */
+.container {
+  @apply max-w-6xl mx-auto px-4;
+}
+.hello{
+  display: flex;           /* places items side by side */
+  justify-content: center; /* centers them horizontally */
+  flex-wrap: wrap;         /* wraps to next line on small screens */
+  gap: 20px;               /* space between photos */
+}
+
+.header{
+  align-items: center;
+  display: flex;           
+  justify-content: center;
+}
+
+.card {
+  background-color: #1f2937; 
+  color: white;
+  width: 300px;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+/* custom keyframes (your app had a logo-spin) */
+@keyframes logo-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+.logo-spin {
+  animation: logo-spin 20s linear infinite;
+}
+
