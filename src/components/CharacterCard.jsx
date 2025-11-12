@@ -25,9 +25,11 @@ export default function CharacterCard({ character, index, onClick }) {
     {/* Show this only when clicked */}
     {showInfo && (
       <div className="card-data">
-        <h4 className="text-lg font-bold text-white">{character.name}</h4>
-        <p className="text-sm text-gray-300">Birth Year: {character.birth_year}</p>
-        <p className="text-sm text-gray-300">Gender: {character.gender}</p>
+        <h4 className="chname">{character.name}</h4>
+        <p className="chbirth">Birth Year: {character.birth_year}</p>
+        <p className="chgender">Gender: {character.gender}</p>
+        <p className="chheight">Height:{character.height}</p>
+        <p className="chmass">Mass:{character.mass}</p>
       </div>
     )}
   </div>

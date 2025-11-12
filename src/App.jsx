@@ -8,6 +8,7 @@ export default function App() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [query,setQuery]=useState();
+  const [searchTerm, setSearchTerm] = useState("");
 
   const [selected, setSelected] = useState(null);
   const [details, setDetails] = useState({});
@@ -35,7 +36,7 @@ export default function App() {
     };
   }, [page]);
 
-  // Fetch character details when selected
+  
   useEffect(() => {
     if (!selected) return;
     let cancelled = false;
@@ -75,29 +76,73 @@ export default function App() {
     if (page < totalPages) setPage((p) => p + 1);
   };
 
-  return (
-    <div className="min-h-screen bg-gradient-to-r from-indigo-700 via-purple-700 to-pink-700 text-white p-6">
-      <h1 className="header">
-        🌟 Star Wars Characters
-      </h1>
-    {/* text-4xl font-bold mb-8 text-center text-yellow-400 */}
+  const filteredCharacters = data.results.filter((char) =>
+  char.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
+  return (
+    <div>
+      <h1 className="header">
+        🌟 Star Wars Characters 🌟
+      </h1>
+      <h2 className="head3">
+        Explore the star world.....!
+      </h2>
+    
+      <div className="search-container">
+          <input
+            type="text"
+            placeholder="Search by character name..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="search-input"
+          />
+      </div>
+
+      <div className="filter">
+        {searchTerm === "" ? (
+          <p className="chno">Start typing to search for a character...</p>
+        ) : filteredCharacters.length > 0 ? (
+          filteredCharacters.map((char, index) => (
+            <div key={index} className="card">
+              <img
+                src={`https://picsum.photos/seed/${encodeURIComponent(char.name)}/200/200`}
+                alt={char.name}
+                className="card-img"
+              />
+              <div className="card-data">
+                <h3>{char.name}</h3>
+                <p><strong>Height:</strong> {char.height} cm</p>
+                <p><strong>Mass:</strong> {char.mass} kg</p>
+                <p><strong>Birth Year:</strong> {char.birth_year}</p>
+                <p><strong>Gender:</strong> {char.gender}</p>
+              </div>
+            </div>
+          ))
+        ) : (
+          <p className="chno">No characters found.</p>
+        )}
+      </div>
+
+
+      
       {loading ? (
-        <p className="text-center text-gray-400">Loading characters...</p>
+        <p className="errorhandling">Loading characters...</p>
       ) : error ? (
-        <p className="text-center text-red-400">{error}</p>
+        <p className="error">{error}</p>
       ) : (
         <>
-<div className="hello">
-  {data.results.map((char) => (
-    <CharacterCard
-      key={char.name}
-      character={char}
-      onClick={() => setSelected(char)}
-    />
-  ))}
-</div>
-          <div>
+        <div className="hello">
+          {data.results.map((char) => (
+            <CharacterCard
+              key={char.name}
+              character={char}
+              onClick={() => setSelected(char)}
+            />
+          ))}
+        </div>
+          
+          <div className="pagination">
             <button
               onClick={handlePrev}
               disabled={page === 1}
@@ -111,16 +156,11 @@ export default function App() {
             <button
               onClick={handleNext}
               disabled={page === totalPages}
-              className="px-4 py-2 bg-gray-800 rounded-lg disabled:opacity-40 hover:bg-gray-700"
+              className="buttonnext"
             >
               Next ➡
             </button>
           </div>
-
-
-      
-
-  
         </>
       )
     }
